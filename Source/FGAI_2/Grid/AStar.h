@@ -22,6 +22,24 @@ class FGAI_2_API UAStar : public UActorComponent
 public:	
 	UAStar();
 
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void FindPath(FVector startPos, FVector targetPos);
+	void RetracePath(FGridNode* startNode, FGridNode* endNode);
+	void PathFailed();
+
+	int GetDistance(FGridNode* nodeA, FGridNode* nodeB);
+	TArray<FGridNode*> SearchDirection(TArray<FGridNode*> SearchPath);
+
+public:
+	
+	TArray<FGridNode*> path;
+	UPROPERTY(EditAnywhere)
+	AMyGrid* grid = nullptr;
+	UPROPERTY(EditAnywhere)
+	AFGAI_2GameModeBase* Instance = nullptr;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AActor* StartActor;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -31,36 +49,15 @@ public:
 	FVector Start;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector End;
-
 	FVector Velocity;
-
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	bool Move = false;
-	TArray<FGridNode*> path;
-	UPROPERTY(EditAnywhere)
-	AMyGrid* grid = nullptr;
-
-	UPROPERTY(EditAnywhere)
-	AFGAI_2GameModeBase* Instance = nullptr;
 
 	UPROPERTY(EditAnywhere)
 	bool jumpPoint = true;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool Move = false;
 
 	UPROPERTY(EditAnywhere)
 	FColor Color = FColor::Red;
 
-	FVector2D Direction;
 	int TargetIndex;
-	
-protected:
-	virtual void BeginPlay() override;
-
-public:
-	void PathFailed();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void FindPath(FVector startPos, FVector targetPos);
-	void RetracePath(FGridNode* startNode, FGridNode* endNode);
-	int GetDistance(FGridNode* nodeA, FGridNode* nodeB);
-
-	TArray<FGridNode*> SearchDirection(TArray<FGridNode*> SearchPath);
 };

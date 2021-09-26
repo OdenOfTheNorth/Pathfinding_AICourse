@@ -1,13 +1,8 @@
 #include "AStar.h"
-
-//#include <activation.h>
-
-//#include "Node.h"
 #include "FGAI_2/FGAI_2GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-// Sets default values for this component's properties
 UAStar::UAStar()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -27,16 +22,13 @@ void UAStar::BeginPlay()
 	Instance->AStarComponents.Add(this);
 	
 	UE_LOG(LogTemp,Warning,TEXT("UAStar, AFGAI_2GameModeBase"));
-	//grid = Instance->grid;// Cast<AMyGrid>(Instance->grid);
 	
 	if (!grid)
 	{
-		//grid = Instance->grid;
 		UE_LOG(LogTemp,Warning,TEXT("UAStar, grid is nullptr"));
 	}
 
 	StartActor = GetOwner();
-	//TargetIndex = path.Num() - 1;
 }
 
 void UAStar::PathFailed()
@@ -67,15 +59,8 @@ void UAStar::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 
 		if (Move)
 		{
-			//if (TargetIndex == - 1)				
-			//	return;				
-				
-			//FVector currentWaypoint = path[TargetIndex]->worldPosition;
-
 			if (path.Num() == 0)
-			{
-				return;
-			}
+				return;			
 
 			TargetIndex  = path.Num() - 1;
 			
@@ -215,10 +200,6 @@ void UAStar::FindPath(FVector startPos, FVector targetPos)
 		FVector::OneVector * boxSize, FColor::Yellow, GetOwner()->GetActorRotation(), 0.f,1);
 		}
 	}
-
-	//TargetIndex = path.Num() - 1;
-	
-	//grid->ClosedSet = closedSet;
 }
 
 void UAStar::RetracePath(FGridNode* startNode, FGridNode* endNode)
@@ -253,10 +234,6 @@ int UAStar::GetDistance(FGridNode* nodeA, FGridNode* nodeB)
 {
 	int dstX = FMath::Abs(nodeA->gridX - nodeB->gridX);
 	int dstY = FMath::Abs(nodeA->gridY - nodeB->gridY);
-	
-	//int OCost = nodeA->ObstacleCost - nodeB->ObstacleCost; 
-	//int dstX = FMath::Abs((nodeA->gridX - nodeA->ObstacleCost) - (nodeB->gridX - nodeB->ObstacleCost));
-	//int dstY = FMath::Abs((nodeA->gridY - nodeA->ObstacleCost) - (nodeB->gridY - nodeB->ObstacleCost));
 	
 	if (dstX > dstY)
 		return 14 * dstY + 10 * (dstX - dstY);

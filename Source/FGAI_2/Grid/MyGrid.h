@@ -28,7 +28,7 @@ struct FGridNode
 		fCost = gCost + hCost;
 		gridIndex = index;
 	}
-	//UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	
 	bool walkable;
 	
 	int ObstacleCost;
@@ -46,8 +46,7 @@ struct FGridNode
 UCLASS()
 class FGAI_2_API AMyGrid : public AActor
 {
-	GENERATED_BODY()
-	
+	GENERATED_BODY()	
 public:	
 	AMyGrid();
 	virtual void BeginPlay() override;
@@ -69,29 +68,25 @@ public:
 	UPROPERTY(EditAnywhere)
 	USceneComponent* SceneComponent = nullptr;
 
+	UPROPERTY(EditAnywhere)
+	AFGAI_2GameModeBase* Instance;
+	
+	TArray<FGridNode*> grid;
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float colorScale = 0;
 	
 	UPROPERTY(EditAnywhere)
+	bool drawBox = true;
+	
+	UPROPERTY(EditAnywhere)
 	float GridWorldSizeInMeters = 25;
 	UPROPERTY(EditAnywhere)
-	bool drawBox = true;
-
-	
-	//UPROPERTY(EditAnywhere)
-	FVector gridWorldSize = FVector::OneVector;// * 10;
-	UPROPERTY(EditAnywhere)
 	float nodeRadius = 50;
-	//UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TArray<FGridNode*> grid;
 	UPROPERTY(EditAnywhere)
 	float DrawTime = 500;
+	FVector gridWorldSize = FVector::OneVector;
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
-	//UPROPERTY(EditAnywhere)
-	TArray<FGridNode*> path;
-
-	UPROPERTY(EditAnywhere)
-	AFGAI_2GameModeBase* Instance;
 };
